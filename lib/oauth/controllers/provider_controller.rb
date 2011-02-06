@@ -9,7 +9,7 @@ module OAuth
           oauthenticate :strategies => :token, :interactive => false, :only => [:invalidate,:capabilities]
           oauthenticate :strategies => :two_legged, :interactive => false, :only => [:request_token]
           oauthenticate :strategies => :oauth10_request_token, :interactive => false, :only => [:access_token]
-          skip_before_filter :verify_authenticity_token, :only=>[:request_token, :access_token, :invalidate, :test_request]
+          skip_before_filter :verify_authenticity_token, :only=>[:token, :request_token, :access_token, :invalidate, :test_request]
         end
       end
       
@@ -184,7 +184,7 @@ module OAuth
           oauth2_error
           return
         end
-        if @verification_code.redirect_url != params[:redirect_url]
+        if @verification_code.redirect_url != params[:redirect_uri]
           oauth2_error
           return
         end
